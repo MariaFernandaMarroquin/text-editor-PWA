@@ -35,7 +35,7 @@ module.exports = () => {
         publicPath: './',
         icons: [
           {
-            src: path.resolve('client/src/favicon.ico'),
+            src: path.resolve('assets/images/logo.png'),
             sizes: [96, 128, 192, 256, 384, 512],
             destination: path.join('assets', 'icons'),
           },
