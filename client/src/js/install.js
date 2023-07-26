@@ -6,7 +6,7 @@ window.addEventListener('beforeinstallprompt', (event) => {
     // Store the events
     window.deferredPrompt = event;
 
-    butInstall.classList.toggle('hidden', false); //Review in tutoring
+    butInstall.classList.toggle('hidden', false);
 });
 
 // TODO: Implement a click event handler on the `butInstall` element

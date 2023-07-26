@@ -22,11 +22,15 @@ module.exports = () => {
       }),
 
       //Service worker Plugin
-      new InjectManifest(),
+      new InjectManifest({
+        swSrc: './src-sw.js',
+        swDest: 'src-sw.js',
+      }),
 
       //Mainfest file Plugin
       new WebpackPwaManifest({
         name: 'Text Editor',
+        fingerprints: false,
         short_name: 'T.E',
         description: 'Text editor to store important data or code snippets',
         background_color: '#7eb4e2',
@@ -35,7 +39,7 @@ module.exports = () => {
         publicPath: './',
         icons: [
           {
-            src: path.resolve('assets/images/logo.png'),
+            src: path.resolve('src/images/logo.png'),
             sizes: [96, 128, 192, 256, 384, 512],
             destination: path.join('assets', 'icons'),
           },

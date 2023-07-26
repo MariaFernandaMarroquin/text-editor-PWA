@@ -1,10 +1,10 @@
 const { offlineFallback, warmStrategyCache } = require('workbox-recipes');
-const { CacheFirst } = require('workbox-strategies');
+const { CacheFirst, StaleWhileRevalidate } = require('workbox-strategies');
 const { registerRoute } = require('workbox-routing');
 const { CacheableResponsePlugin } = require('workbox-cacheable-response');
 const { ExpirationPlugin } = require('workbox-expiration');
-// PrecacheFallbackPlugin required
-const { PrecacheFallbackPlugin, precacheAndRoute } = require('workbox-precaching/precacheAndRoute');
+const { precacheAndRoute } = require('workbox-precaching/precacheAndRoute');
+const { PrecacheFallbackPlugin } = require('workbox-precaching');
 
 precacheAndRoute(self.__WB_MANIFEST);
 
@@ -27,15 +27,17 @@ warmStrategyCache({
 
 registerRoute(({ request }) => request.mode === 'navigate', pageCache);
 
-// Review in tutoring 
+
 registerRoute(
-  new offlineFallback({
-    //Name of cache storage
+  ({ request }) => ['style', 'script', 'worker'].includes(request.destination),
+  new StaleWhileRevalidate({
+    // Name of the cache storage.
     cacheName: 'asset-cache',
     plugins: [
-      new PrecacheFallbackPlugin({
-        fallbackURL: '/index.html'
-      })
-    ]
+      // This plugin will cache responses with these headers to a maximum-age of 30 days
+      new CacheableResponsePlugin({
+        statuses: [0, 200],
+      }),
+    ],
   })
 );
