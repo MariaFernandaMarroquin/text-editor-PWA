@@ -27,14 +27,12 @@ warmStrategyCache({
 
 registerRoute(({ request }) => request.mode === 'navigate', pageCache);
 
-
 registerRoute(
-  ({ request }) => ['style', 'script', 'worker'].includes(request.destination),
+  ({ request }) => ['style', 'script', 'worker'].includes(request.destination), //en request.destination se verifica que alguno de esos tres exista
   new StaleWhileRevalidate({
     // Name of the cache storage.
-    cacheName: 'asset-cache',
+    cacheName: 'offline-cache',
     plugins: [
-      // This plugin will cache responses with these headers to a maximum-age of 30 days
       new CacheableResponsePlugin({
         statuses: [0, 200],
       }),
